@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dịch Vụ Thiết Kế Website & Landing Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* --- Cài đặt chung --- */
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: #0d0d0d;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        /* --- Hiệu ứng nền Gradient chuyển động --- */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(-45deg, #1a110a, #0a0a0a, #2a1a0a, #000000);
+            background-size: 400% 400%;
+            animation: gradientBG 25s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* --- Tùy chỉnh thanh cuộn --- */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #4a5568;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #718096;
+        }
+
+        /* --- Hiệu ứng cho các phần tử khi cuộn trang --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Thẻ nổi bật --- */
+        .highlight-card {
+            border: 2px solid #f97316;
+            box-shadow: 0 0 30px rgba(249, 115, 22, 0.4);
+            transform: scale(1.02);
+            transition: all 0.3s ease;
+        }
+
+        .highlight-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 45px rgba(249, 115, 22, 0.6);
+        }
+
+        /* --- Hiệu ứng Glassmorphism --- */
+        .glass-effect {
+            background: rgba(26, 26, 26, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* --- Cài đặt cho Header --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            transition: all 0.3s ease;
+        }
+
+        /* --- Add padding to sections to account for header height --- */
+        section {
+            padding-top: 80px;
+            /* Adjust based on header height; increase if needed */
+        }
+
+        /* --- Offset for anchor links to prevent content from being hidden under header --- */
+        section[id]::before {
+            content: '';
+            display: block;
+            height: 80px;
+            /* Same as header height */
+            margin-top: -80px;
+            /* Negative margin to pull anchor point up */
+            visibility: hidden;
+        }
+
+        /* --- Cài đặt cho Portfolio Modal --- */
+        .modal {
+            margin-top: 40px;
+            transition: opacity 0.25s ease;
+        }
+
+        body.modal-active {
+            overflow-x: hidden;
+            overflow-y: hidden;
+        }
+
+        /* Updated modal-container styles from previous request */
+        .modal-container {
+            background: #1a1a1a;
+            width: 100%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            padding: 1.5rem;
+        }
+
+        .modal-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-container::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        .modal-container::-webkit-scrollbar-thumb {
+            background: #f97316;
+            border-radius: 10px;
+        }
+
+        .modal-container::-webkit-scrollbar-thumb:hover {
+            background: #ed8936;
+        }
+
+        /* --- Cài đặt cho FAQ Accordion --- */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        /* --- Hiệu ứng cho nút lọc portfolio --- */
+        .filter-btn.active {
+            background-color: #f97316;
+            color: white;
+        }
+
+        /* --- Hiệu ứng cho logo khách hàng --- */
+        .client-logo-container {
+            -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0));
+            mask-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0));
+        }
+
+        .scrolling-logos {
+            display: inline-block;
+            animation: scroll-logos 40s linear infinite;
+        }
+
+        @keyframes scroll-logos {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <div class="background-animation"></div>
+
+    <!-- PHẦN 1: HEADER -->
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 glass-effect">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-white">
+                <image src="./Thiết kế chưa có tên.png" style="width: 16%; min-width: 126px" alt="" />
+            </a>
+            <nav class="hidden lg:flex space-x-10 items-center text-xl" style="min-width: 800px;">
+                <a href="#intro" class="hover:text-orange-400 transition-colors">Giới Thiệu</a>
+                <a href="#services" class="hover:text-orange-400 transition-colors">Dịch Vụ</a>
+                <a href="#portfolio" class="hover:text-orange-400 transition-colors">Dự Án</a>
+                <!-- <a href="#team" class="hover:text-orange-400 transition-colors">Đội Ngũ</a> -->
+                <a href="#blog" class="hover:text-orange-400 transition-colors">Blog</a>
+                <a href="#faq" class="hover:text-orange-400 transition-colors">FAQ</a>
+                <a href="#contact"
+                    class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded-lg transition-all">Tư
+                    Vấn Miễn Phí</a>
+            </nav>
+            <button id="mobile-menu-button" class="lg:hidden text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-gray-900/80 backdrop-blur-sm">
+            <a href="#intro" class="block py-2 px-6 text-sm hover:bg-orange-700">Giới Thiệu</a>
+            <a href="#services" class="block py-2 px-6 text-sm hover:bg-orange-700">Dịch Vụ</a>
+            <a href="#portfolio" class="block py-2 px-6 text-sm hover:bg-orange-700">Dự Án</a>
+            <!-- <a href="#team" class="block py-2 px-6 text-sm hover:bg-orange-700">Đội Ngũ</a> -->
+            <a href="#blog" class="block py-2 px-6 text-sm hover:bg-orange-700">Blog</a>
+            <a href="#faq" class="block py-2 px-6 text-sm hover:bg-orange-700">FAQ</a>
+            <a href="#contact" class="block py-2 px-6 text-sm hover:bg-orange-700">Liên Hệ</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- PHẦN 2: HERO SECTION -->
+        <section id="home" class="min-h-screen flex items-center pt-24 pb-12 relative">
+            <!-- New decorative blobs with orange theme -->
+            <div
+                class="absolute top-1/4 left-1/4 w-32 h-32 bg-orange-500 rounded-full mix-blend-screen filter blur-xl opacity-30 animate-blob">
+            </div>
+            <div
+                class="absolute top-1/2 right-1/4 w-32 h-32 bg-amber-400 rounded-full mix-blend-screen filter blur-xl opacity-30 animate-blob animation-delay-2000">
+            </div>
+            <div
+                class="absolute bottom-1/4 left-1/3 w-32 h-32 bg-red-500 rounded-full mix-blend-screen filter blur-xl opacity-30 animate-blob animation-delay-4000">
+            </div>
+
+            <div class="container mx-auto px-6 text-center z-10">
+                <div class="reveal">
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-4">
+                        Nâng Tầm <span class="text-orange-400">Thương Hiệu</span> Với Giải Pháp Thiết Kế Đột Phá
+                    </h1>
+                    <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-8">
+                        Biến ý tưởng thành hiện thực, thu hút khách hàng và gia tăng doanh thu.
+                    </p>
+                    <div class="flex justify-center gap-4">
+                        <a href="#services"
+                            class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition-all transform hover:scale-105">
+                            Khám Phá Dịch Vụ
+                        </a>
+                        <a href="#contact"
+                            class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-8 rounded-lg text-lg transition-all transform hover:scale-105">
+                            Nhận Tư Vấn Miễn Phí
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PHẦN 3: TẦM QUAN TRỌNG CỦA THIẾT KẾ -->
+        <section id="intro" class="py-20 bg-black bg-opacity-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 reveal">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Tại Sao Thiết Kế Chuyên Nghiệp Là Chìa Khóa
+                        Thành Công?</h2>
+                    <p class="text-gray-400 mt-2 max-w-3xl mx-auto">Trong kỷ nguyên số, hình ảnh là thông điệp đầu tiên.
+                        Người dùng chỉ có 8 giây để quyết định tương tác. Làm thế nào để thương hiệu của bạn nổi bật?
+                    </p>
+                </div>
+                <div id="stats-section" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                    <div class="reveal p-6 glass-effect rounded-xl">
+                        <p class="stat-number text-4xl font-bold text-orange-400 mb-2" data-target="300">0%</p>
+                        <p class="text-gray-300">Tăng CTR với banner chuyên nghiệp.</p>
+                    </div>
+                    <div class="reveal p-6 glass-effect rounded-xl" style="transition-delay: 100ms;">
+                        <p class="stat-number text-4xl font-bold text-orange-400 mb-2" data-target="60000">0x</p>
+                        <p class="text-gray-300">Não bộ xử lý hình ảnh nhanh hơn văn bản.</p>
+                    </div>
+                    <div class="reveal p-6 glass-effect rounded-xl" style="transition-delay: 200ms;">
+                        <p class="stat-number text-4xl font-bold text-orange-400 mb-2" data-target="23">0%</p>
+                        <p class="text-gray-300">Tăng trưởng doanh thu trung bình.</p>
+                    </div>
+                    <div class="reveal p-6 glass-effect rounded-xl" style="transition-delay: 300ms;">
+                        <p class="stat-number text-4xl font-bold text-orange-400 mb-2" data-target="90">0%</p>
+                        <p class="text-gray-300">Thông tin được tiếp nhận là hình ảnh.</p>
+                    </div>
+                </div>
+                <div class="text-center mt-10 reveal">
+                    <a href="#services" class="text-orange-400 font-semibold hover:underline">Để biết cách chúng tôi
+                        giúp bạn đạt được những con số ấn tượng này, hãy khám phá các giải pháp của chúng tôi →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- PHẦN 3.5: KHÁCH HÀNG TIÊU BIỂU -->
+        <!-- <section id="clients" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 reveal">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Được Tin Tưởng Bởi Các Thương Hiệu Hàng Đầu
+                    </h2>
+                </div>
+                <div class="relative w-full overflow-hidden client-logo-container">
+                    <div class="scrolling-logos flex whitespace-nowrap">
+                       
+                        <div class="flex items-center space-x-16 px-8">
+                            <img src="https://placehold.co/150x60/FFFFFF/0A0A1A?text=Brand+A" alt="Brand A"
+                                class="h-12 grayscale hover:grayscale-0 transition duration-300">
+                            <img src="https://placehold.co/150x60/FFFFFF/0A0A1A?text=Brand+B" alt="Brand B"
+                                class="h-12 grayscale hover:grayscale-0 transition duration-300">
+                            <img src="https://placehold.co/150x60/FFFFFF/0A0A1A?text=Brand+C" alt="Brand C"
+                                class="h-12 grayscale hover:grayscale-0 transition duration-300">
+                            <img src="https://placehold.co/150x60/FFFFFF/0A0A1A?text=Brand+D" alt="Brand D"
+                                class="h-12 grayscale hover:grayscale-0 transition duration-300">
+                            <img src="https://placehold.co/150x60/FFFFFF/0A0A1A?text=Brand+E" alt="Brand E"
+                                class="h-12 grayscale hover:grayscale-0 transition duration-300">
+                            <img src="https://placehold.co/150x60/FFFFFF/0A0A1A?text=Brand+F" alt="Brand F"
+                                class="h-12 grayscale hover:grayscale-0 transition duration-300">
+                        </div>
+                        <div class="flex items-center space-x-16 px-8">
+                            <img src="https://placehold.co/150x60/FFFFFF/0A0A1A?text=Brand+A" alt="Brand A"
+                                class="h-12 grayscale hover:grayscale-0 transition duration-300">
+                            <img src="https://placehold.co/150x60/FFFFFF/0A0A1A?text=Brand+B" alt="Brand B"
+                                class="h-12 grayscale hover:grayscale-0 transition duration-300">
+                            <img src="https://placehold.co/150x60/FFFFFF/0A0A1A?text=Brand+C" alt="Brand C"
+                                class="h-12 grayscale hover:grayscale-0 transition duration-300">
+                            <img src="https://placehold.co/150x60/FFFFFF/0A0A1A?text=Brand+D" alt="Brand D"
+                                class="h-12 grayscale hover:grayscale-0 transition duration-300">
+                            <img src="https://placehold.co/150x60/FFFFFF/0A0A1A?text=Brand+E" alt="Brand E"
+                                class="h-12 grayscale hover:grayscale-0 transition duration-300">
+                            <img src="https://placehold.co/150x60/FFFFFF/0A0A1A?text=Brand+F" alt="Brand F"
+                                class="h-12 grayscale hover:grayscale-0 transition duration-300">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section> -->
+
+        <!-- PHẦN 4: CÁC DỊCH VỤ CỐT LÕI -->
+        <section id="services" class="py-20 bg-black bg-opacity-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Giải Pháp Thiết Kế Toàn Diện Từ PPT MEDIA</h2>
+                </div>
+
+                <div class="space-y-24">
+                    <!-- A. THIẾT KẾ WEBSITE & LANDING PAGE -->
+                    <div class="reveal">
+                        <h3 class="text-2xl md:text-3xl font-bold text-orange-400 mb-2">1. Thiết Kế Website </h3>
+
+                        <div class="text-center mb-12">
+                            <h2 class="text-2xl md:text-2xl font-bold section-title">Thiết Kế Website Doanh Nghiệp
+                            </h2>
+
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                            <!-- Card 1: Khởi đầu -->
+                            <div class="bg-white p-8 rounded-2xl shadow-lg card-hover text-center">
+                                <div
+                                    class="bg-orange-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                                    <i data-lucide="feather" class="w-10 h-10 text-orange-500"></i>
+                                </div>
+                                <h3 class="text-xl font-bold mb-3 text-gray-800">Khởi Đầu</h3>
+                                <p class="text-gray-500">Hiện diện chuyên nghiệp, tiếp cận khách hàng đầu tiên.</p>
+                            </div>
+                            <!-- Card 2: Tăng trưởng -->
+                            <div class="bg-white p-8 rounded-2xl shadow-lg card-hover text-center">
+                                <div
+                                    class="bg-orange-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                                    <i data-lucide="trending-up" class="w-10 h-10 text-orange-500"></i>
+                                </div>
+                                <h3 class="text-xl font-bold mb-3 text-gray-800">Tăng Trưởng</h3>
+                                <p class="text-gray-500">Thiết kế độc đáo, tối ưu SEO để bứt phá và mở rộng.</p>
+                            </div>
+                            <!-- Card 3: Dẫn đầu -->
+                            <div class="bg-white p-8 rounded-2xl shadow-lg card-hover text-center">
+                                <div
+                                    class="bg-orange-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                                    <i data-lucide="award" class="w-10 h-10 text-orange-500"></i>
+                                </div>
+                                <h3 class="text-xl font-bold mb-3 text-gray-800">Dẫn Đầu</h3>
+                                <p class="text-gray-500">Trải nghiệm chuẩn mực, trở thành cỗ máy bán hàng.</p>
+                            </div>
+                            <!-- Card 4: Đẳng cấp -->
+                            <div class="bg-white p-8 rounded-2xl shadow-lg card-hover text-center">
+                                <div
+                                    class="bg-orange-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                                    <i data-lucide="gem" class="w-10 h-10 text-orange-500"></i>
+                                </div>
+                                <h3 class="text-xl font-bold mb-3 text-gray-800">Đẳng Cấp</h3>
+                                <p class="text-gray-500">Kiệt tác số với hiệu ứng và tính năng độc nhất.</p>
+                            </div>
+                        </div>
+
+
+                        <!-- Landing Page Section -->
+                        <section id="landingpages">
+                            <div class="text-center mb-12">
+                                <h2 class="text-2xl md:text-2xl font-bold section-title">Thiết Kế Landing Page</h2>
+
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                <!-- Card 1: Nhanh -->
+                                <div class="bg-white p-8 rounded-2xl shadow-lg card-hover text-center">
+                                    <div
+                                        class="bg-orange-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                                        <i data-lucide="zap" class="w-10 h-10 text-orange-500"></i>
+                                    </div>
+                                    <h3 class="text-xl font-bold mb-3 text-gray-800">Triển Khai Nhanh</h3>
+                                    <p class="text-gray-500">Nắm bắt cơ hội tức thì cho các chiến dịch quảng cáo.</p>
+                                </div>
+                                <!-- Card 2: Tối ưu -->
+                                <div class="bg-white p-8 rounded-2xl shadow-lg card-hover text-center">
+                                    <div
+                                        class="bg-orange-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                                        <i data-lucide="target" class="w-10 h-10 text-orange-500"></i>
+                                    </div>
+                                    <h3 class="text-xl font-bold mb-3 text-gray-800">Tối Ưu Chuyển Đổi</h3>
+                                    <p class="text-gray-500">"Thôi miên" người dùng bằng hiệu ứng và A/B testing.</p>
+                                </div>
+                                <!-- Card 3: Bán hàng -->
+                                <div class="bg-white p-8 rounded-2xl shadow-lg card-hover text-center">
+                                    <div
+                                        class="bg-orange-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                                        <i data-lucide="shopping-cart" class="w-10 h-10 text-orange-500"></i>
+                                    </div>
+                                    <h3 class="text-xl font-bold mb-3 text-gray-800">Cỗ Máy Bán Hàng</h3>
+                                    <p class="text-gray-500">Thiết kế cao cấp, nội dung thuyết phục, dẫn dắt cảm xúc.
+                                    </p>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <p id="banner-logo-id" class="text-center mt-6 text-gray-400 italic">Lựa chọn các gói dịch vụ giúp
+                        tối ưu chi phí và
+                        đảm bảo sự đồng bộ so với yêu cầu lẻ. <a href="#contact"
+                            class="text-orange-400 font-bold hover:underline not-italic">Liên hệ để nhận báo giá chi
+                            tiết.</a></p>
+                </div>
+
+                <!-- B. THIẾT KẾ HÌNH ẢNH ĐA PHƯƠNG TIỆN -->
+                <div class="reveal" style="margin-top: 80px;">
+                    <h3 class="text-2xl md:text-3xl font-bold text-orange-400 mb-2">2. Thiết Kế Hình Ảnh Đa Phương
+                        Tiện</h3>
+                    <p class="text-gray-400 mb-8 max-w-3xl">Biến ý tưởng thành hình ảnh sắc nét, truyền tải thông
+                        điệp rõ ràng và thu hút mọi ánh nhìn.</p>
+                    <div class="p-8 rounded-xl highlight-card text-center mb-12">
+                        <h4 class="text-2xl md:text-3xl font-extrabold text-amber-300 mb-3">GÓI COMBO ĐẶC BIỆT -
+                            TIẾT KIỆM VƯỢT TRỘI!</h4>
+                        <p class="text-xl font-bold text-white mb-4">COMBO BANNER GDN (6 TĨNH + 6 ĐỘNG)</p>
+                        <div class="flex flex-col md:flex-row justify-center items-center gap-4 mb-4">
+                            <p class="text-xl text-gray-300 line-through">Giá gốc: 1.700.000 VNĐ</p>
+                            <p class="text-4xl font-bold text-white">CHỈ CÒN: 1.400.000 VNĐ</p>
+                        </div>
+                        <p class="text-lg font-semibold text-amber-300">Tối ưu ngân sách, tối đa hiệu quả quảng cáo!
+                        </p>
+                        <a href="#contact"
+                            class="mt-6 inline-block bg-amber-500 hover:bg-amber-600 text-gray-900 font-bold py-2 px-6 rounded-lg transition-all">Đăng
+                            Ký Ngay</a>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div class="p-6 glass-effect rounded-xl">
+                            <h4 class="text-xl font-bold text-white mb-3">Thiết Kế Logo</h4>
+                            <p class="text-gray-400 mb-3">Logo độc quyền, phản ánh giá trị cốt lõi. Bàn giao đầy đủ
+                                file gốc.</p>
+                            <p class="text-lg font-semibold text-orange-400">Từ 2.000.000 VNĐ</p>
+                        </div>
+                        <div class="p-6 glass-effect rounded-xl">
+                            <h4 class="text-xl font-bold text-white mb-3">Hồ Sơ Năng Lực</h4>
+                            <p class="text-gray-400 mb-3">Thiết kế chuyên nghiệp, gây ấn tượng với đối tác và khách
+                                hàng.</p>
+                            <p class="text-lg font-semibold text-orange-400">Từ 300.000 VNĐ</p>
+                        </div>
+                        <div id="content-id" class="p-6 glass-effect rounded-xl">
+                            <h4 class="text-xl font-bold text-white mb-3">Ấn Phẩm Marketing</h4>
+                            <p class="text-gray-400 mb-3">Standee, Tờ rơi, Brochure, Danh thiếp, Menu, Thumbnail
+                                YouTube...</p>
+                            <p class="text-lg font-semibold text-orange-400">Từ 100.000 VNĐ</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- C. SẢN XUẤT NỘI DUNG CHUYÊN NGHIỆP -->
+                <div class="reveal" style="margin-top: 80px;">
+                    <h3 class="text-2xl md:text-3xl font-bold text-orange-400 mb-2">3. Sản Xuất Nội Dung Chuyên
+                        Nghiệp</h3>
+                    <p class="text-gray-400 mb-8 max-w-3xl">Kiến tạo nội dung cuốn hút, chạm đến khách hàng mục tiêu
+                        và tối ưu cho SEO.</p>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="p-6 glass-effect rounded-xl">
+                            <h4 class="text-xl font-bold text-white mb-4">Nội Dung Website (SEO & Content)</h4>
+                            <ul class="space-y-3 text-gray-300 list-disc list-inside">
+                                <li><strong>Loại Đơn Giản:</strong> Bài viết 500-800 từ, tối ưu từ khóa cơ bản.</li>
+                                <li><strong>Loại Nâng Cao:</strong> Bài viết >1000 từ, nghiên cứu chuyên sâu, tối ưu
+                                    SEO on-page toàn diện.</li>
+                            </ul>
+                        </div>
+                        <div class="p-6 glass-effect rounded-xl">
+                            <h4 class="text-xl font-bold text-white mb-4">Nội Dung Mạng Xã Hội</h4>
+                            <ul class="space-y-3 text-gray-300 list-disc list-inside">
+                                <li><strong>Bài đăng ảnh đơn:</strong> Nội dung + 1 ảnh thiết kế.</li>
+                                <li><strong>Carousel / Multi-photo:</strong> Nội dung + 3-5 ảnh thiết kế.</li>
+                                <li><strong>Video Post & Minigame:</strong> Kịch bản, dựng video, thiết kế visual.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="text-center mt-6 text-gray-400 italic">Chọn gói sản xuất nội dung định kỳ để đảm bảo
+                        sự hiện diện chuyên nghiệp và nhận mức giá tốt nhất.</p>
+                </div>
+            </div>
+            </div>
+        </section>
+
+        <!-- PHẦN 5: QUY TRÌNH LÀM VIỆC -->
+        <section id="process" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Quy Trình Hợp Tác Minh Bạch, Hiệu Quả</h2>
+                    <p class="text-gray-400 mt-2">5 bước chuyên nghiệp đảm bảo chất lượng và sự hài lòng của bạn.</p>
+                </div>
+                <div class="relative max-w-4xl mx-auto">
+                    <div class="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-orange-800 -translate-y-1/2">
+                    </div>
+                    <div class="relative flex justify-between">
+                        <!-- Step 1 -->
+                        <div class="reveal text-center w-1/5">
+                            <div class="relative mb-2">
+                                <div
+                                    class="w-12 h-12 bg-orange-600 rounded-full flex items-center justify-center text-white font-bold text-xl mx-auto z-10 relative">
+                                    1</div>
+                            </div>
+                            <h3 class="font-bold text-orange-400">Tư Vấn</h3>
+                        </div>
+                        <!-- Step 2 -->
+                        <div class="reveal text-center w-1/5" style="transition-delay: 100ms;">
+                            <div class="relative mb-2">
+                                <div
+                                    class="w-12 h-12 bg-orange-600 rounded-full flex items-center justify-center text-white font-bold text-xl mx-auto z-10 relative">
+                                    2</div>
+                            </div>
+                            <h3 class="font-bold text-orange-400">Ký Hợp Đồng</h3>
+                        </div>
+                        <!-- Step 3 -->
+                        <div class="reveal text-center w-1/5" style="transition-delay: 200ms;">
+                            <div class="relative mb-2">
+                                <div
+                                    class="w-12 h-12 bg-orange-600 rounded-full flex items-center justify-center text-white font-bold text-xl mx-auto z-10 relative">
+                                    3</div>
+                            </div>
+                            <h3 class="font-bold text-orange-400">Thiết Kế</h3>
+                        </div>
+                        <!-- Step 4 -->
+                        <div class="reveal text-center w-1/5" style="transition-delay: 300ms;">
+                            <div class="relative mb-2">
+                                <div
+                                    class="w-12 h-12 bg-orange-600 rounded-full flex items-center justify-center text-white font-bold text-xl mx-auto z-10 relative">
+                                    4</div>
+                            </div>
+                            <h3 class="font-bold text-orange-400">Phê Duyệt</h3>
+                        </div>
+                        <!-- Step 5 -->
+                        <div class="reveal text-center w-1/5" style="transition-delay: 400ms;">
+                            <div class="relative mb-2">
+                                <div
+                                    class="w-12 h-12 bg-orange-600 rounded-full flex items-center justify-center text-white font-bold text-xl mx-auto z-10 relative">
+                                    5</div>
+                            </div>
+                            <h3 class="font-bold text-orange-400">Bàn Giao</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PHẦN 6: YẾU TỐ ẢNH HƯỞNG ĐẾN GIÁ -->
+        <section id="pricing-factors" class="py-20 bg-black bg-opacity-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 reveal">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Minh Bạch Chi Phí & Giải Pháp Tối Ưu</h2>
+                    <p class="text-gray-400 mt-2">Hiểu rõ các yếu tố ảnh hưởng đến giá để bạn đầu tư thông minh.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="p-6 glass-effect rounded-xl reveal">
+                        <h3 class="text-xl font-bold text-orange-400 mb-3">Độ phức tạp</h3>
+                        <p class="text-gray-400">Thiết kế đòi hỏi kỹ thuật cao (animation, 3D) có thể ảnh hưởng tới 40%
+                            giá thành.</p>
+                    </div>
+                    <div class="p-6 glass-effect rounded-xl reveal" style="transition-delay: 100ms;">
+                        <h3 class="text-xl font-bold text-orange-400 mb-3">Thời gian</h3>
+                        <p class="text-gray-400">Yêu cầu gấp (1-2 ngày) phụ phí 30%, siêu tốc (dưới 24h) phụ phí 50%.
+                        </p>
+                    </div>
+                    <div class="p-6 glass-effect rounded-xl reveal" style="transition-delay: 200ms;">
+                        <h3 class="text-xl font-bold text-orange-400 mb-3">Quy mô dự án</h3>
+                        <p class="text-gray-400">Đặt hàng số lượng lớn hoặc hợp đồng dài hạn có thể được <strong
+                                class="text-amber-400">giảm giá 10-30%</strong>.</p>
+                    </div>
+                    <div class="p-6 glass-effect rounded-xl reveal" style="transition-delay: 300ms;">
+                        <h3 class="text-xl font-bold text-orange-400 mb-3">Bản quyền</h3>
+                        <p class="text-gray-400">Chi phí có thể tăng 30-50% nếu khách hàng muốn mua độc quyền bản quyền
+                            thiết kế.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PHẦN 7: DỰ ÁN NỔI BẬT -->
+        <section id="portfolio" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 reveal">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Câu Chuyện Thành Công Của Khách Hàng</h2>
+                    <p class="text-gray-400 mt-2">Xem cách chúng tôi đã giúp các đối tác biến tầm nhìn thành hiện thực.
+                    </p>
+                </div>
+                <!-- Bộ lọc dự án -->
+                <div class="flex justify-center flex-wrap gap-2 mb-12 reveal">
+                    <button class="filter-btn active px-4 py-2 rounded-lg bg-gray-700 hover:bg-orange-500 transition"
+                        data-filter="all">Tất Cả</button>
+                    <button class="filter-btn px-4 py-2 rounded-lg bg-gray-700 hover:bg-orange-500 transition"
+                        data-filter="website">Website</button>
+                    <button class="filter-btn px-4 py-2 rounded-lg bg-gray-700 hover:bg-orange-500 transition"
+                        data-filter="branding">Branding</button>
+                    <button class="filter-btn px-4 py-2 rounded-lg bg-gray-700 hover:bg-orange-500 transition"
+                        data-filter="banner">Banner</button>
+                </div>
+
+                <div id="portfolio-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Project 1 -->
+                    <div class="portfolio-item reveal glass-effect rounded-xl overflow-hidden group"
+                        data-category="website">
+                        <img src="https://market-resized.envatousercontent.com/previews/files/495215936/01_boyka_preview.jpg?w=590&h=300&cf_fit=crop&crop=top&format=auto&q=85&s=11f45e904ab642fccd889484035e9068c99e169f78b824ee570f5a28a852af73"
+                            alt="Dự án A"
+                            class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white">Website TMĐT Thời Trang</h3>
+                            <p class="text-sm text-orange-400 mb-3">Website & Banner GDN</p>
+                            <button
+                                class="modal-open w-full text-center py-2 bg-orange-600 rounded-lg hover:bg-orange-700 transition">Xem
+                                Chi Tiết</button>
+                        </div>
+                    </div>
+                    <!-- Project 2 -->
+                    <div class="portfolio-item reveal glass-effect rounded-xl overflow-hidden group"
+                        data-category="branding">
+                        <img src="https://i.pinimg.com/736x/22/9a/f4/229af46d8099c2a048792ddc68f0a3a9.jpg" alt="Dự án B"
+                            class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white">Bộ Nhận Diện Thương Hiệu Startup</h3>
+                            <p class="text-sm text-orange-400 mb-3">Logo & Hồ sơ năng lực</p>
+                            <button
+                                class="modal-open w-full text-center py-2 bg-orange-600 rounded-lg hover:bg-orange-700 transition">Xem
+                                Chi Tiết</button>
+                        </div>
+                    </div>
+                    <!-- Project 3 -->
+                    <div class="portfolio-item reveal glass-effect rounded-xl overflow-hidden group"
+                        data-category="banner">
+                        <img src="./a.gif" alt="Dự án C"
+                            class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white">Chiến Dịch Banner Động</h3>
+                            <p class="text-sm text-orange-400 mb-3">HTML5 Banner</p>
+                            <button
+                                class="modal-open w-full text-center py-2 bg-orange-600 rounded-lg hover:bg-orange-700 transition">Xem
+                                Chi Tiết</button>
+                        </div>
+                    </div>
+                    <!-- Project 4 -->
+                    <div class="portfolio-item reveal glass-effect rounded-xl overflow-hidden group"
+                        data-category="website">
+                        <img src="https://market-resized.envatousercontent.com/previews/files/83381179/theme-preview/01_banner.jpg?w=590&h=300&cf_fit=crop&crop=top&format=auto&q=85&s=aa824edd9763528b343a3d55efd6150da7b236aff9d9ecd2d4ce3244b68af33e"
+                            alt="Dự án D"
+                            class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white">Landing Page Bất Động Sản</h3>
+                            <p class="text-sm text-orange-400 mb-3">Landing Page Gói Nâng Cao</p>
+                            <button
+                                class="modal-open w-full text-center py-2 bg-orange-600 rounded-lg hover:bg-orange-700 transition">Xem
+                                Chi Tiết</button>
+                        </div>
+                    </div>
+                    <!-- Project 5 -->
+                    <div class="portfolio-item reveal glass-effect rounded-xl overflow-hidden group"
+                        data-category="branding">
+                        <img src="https://i.pinimg.com/736x/24/ab/4d/24ab4d3e8497b44dd32a52db7cedb7bd.jpg" alt="Dự án E"
+                            class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white">Thiết Kế Bao Bì Sản Phẩm</h3>
+                            <p class="text-sm text-orange-400 mb-3">Branding & Packaging</p>
+                            <button
+                                class="modal-open w-full text-center py-2 bg-orange-600 rounded-lg hover:bg-orange-700 transition">Xem
+                                Chi Tiết</button>
+                        </div>
+                    </div>
+                    <!-- Project 6 -->
+                    <div class="portfolio-item reveal glass-effect rounded-xl overflow-hidden group"
+                        data-category="website">
+                        <img src="https://i.pinimg.com/1200x/8d/e5/14/8de5143d5243aa9bae4ca9077163f704.jpg"
+                            alt="Dự án F"
+                            class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white">Website Portfolio Nhiếp Ảnh Gia</h3>
+                            <p class="text-sm text-orange-400 mb-3">Website Gói Đặc Biệt</p>
+                            <button
+                                class="modal-open w-full text-center py-2 bg-orange-600 rounded-lg hover:bg-orange-700 transition">Xem
+                                Chi Tiết</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PHẦN 8: ĐỘI NGŨ CHUYÊN GIA -->
+        <!-- <section id="team" class="py-20 bg-black bg-opacity-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 reveal">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Gặp Gỡ Đội Ngũ Chuyên Gia Của Chúng Tôi</h2>
+                    <p class="text-gray-400 mt-2">Những con người tài năng và tâm huyết đứng sau thành công của bạn.</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                  
+        <div class="reveal text-center">
+            <img src="https://placehold.co/400x400/FFFFFF/333333?text=CEO" alt="CEO"
+                class="w-40 h-40 rounded-full mx-auto mb-4 border-4 border-orange-500">
+            <h3 class="text-xl font-bold text-white">Nguyễn Văn An</h3>
+            <p class="text-orange-400">Founder & CEO</p>
+        </div>
+     
+        <div class="reveal text-center" style="transition-delay: 100ms;">
+            <img src="https://placehold.co/400x400/FFFFFF/333333?text=Head" alt="Art Director"
+                class="w-40 h-40 rounded-full mx-auto mb-4 border-4 border-orange-500">
+            <h3 class="text-xl font-bold text-white">Trần Thị Bình</h3>
+            <p class="text-orange-400">Art Director</p>
+        </div>
+        
+        <div class="reveal text-center" style="transition-delay: 200ms;">
+            <img src="https://placehold.co/400x400/FFFFFF/333333?text=Lead" alt="Lead Designer"
+                class="w-40 h-40 rounded-full mx-auto mb-4 border-4 border-orange-500">
+            <h3 class="text-xl font-bold text-white">Lê Minh Cường</h3>
+            <p class="text-orange-400">Lead Designer</p>
+        </div>
+        
+        <div class="reveal text-center" style="transition-delay: 300ms;">
+            <img src="https://placehold.co/400x400/FFFFFF/333333?text=Manager" alt="Project Manager"
+                class="w-40 h-40 rounded-full mx-auto mb-4 border-4 border-orange-500">
+            <h3 class="text-xl font-bold text-white">Phạm Thị Dung</h3>
+            <p class="text-orange-400">Project Manager</p>
+        </div>
+        </div>
+        </div>
+        </section>  -->
+
+        <!-- PHẦN 9: ĐÁNH GIÁ TỪ KHÁCH HÀNG -->
+        <!-- <section class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 reveal">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Khách Hàng Nói Gì Về PPT MEDIA?</h2>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="reveal p-6 glass-effect rounded-xl">
+                        <div class="flex items-center mb-4">
+                            <img src="https://placehold.co/100x100/FFFFFF/333333?text=A" alt="Avatar"
+                                class="w-12 h-12 rounded-full mr-4">
+                            <div>
+                                <p class="font-bold text-white">Anh Trần Văn A</p>
+                                <p class="text-sm text-gray-400">CEO, Startup Công nghệ Y</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 italic">"Đội ngũ PPT MEDIA rất chuyên nghiệp và sáng tạo. Bộ nhận diện
+                            thương hiệu họ thiết kế đã giúp chúng tôi tạo ấn tượng mạnh mẽ với nhà đầu tư."</p>
+                    </div>
+                    <div class="reveal p-6 glass-effect rounded-xl" style="transition-delay: 200ms;">
+                        <div class="flex items-center mb-4">
+                            <img src="https://placehold.co/100x100/FFFFFF/333333?text=B" alt="Avatar"
+                                class="w-12 h-12 rounded-full mr-4">
+                            <div>
+                                <p class="font-bold text-white">Chị Nguyễn Thị B</p>
+                                <p class="text-sm text-gray-400">Marketing Manager, Thời trang X</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 italic">"Website mới và bộ banner GDN đã vượt ngoài mong đợi. Tỷ lệ
+                            chuyển đổi của chúng tôi tăng rõ rệt. Rất hài lòng!"</p>
+                    </div>
+                    <div class="reveal p-6 glass-effect rounded-xl" style="transition-delay: 400ms;">
+                        <div class="flex items-center mb-4">
+                            <img src="https://placehold.co/100x100/FFFFFF/333333?text=C" alt="Avatar"
+                                class="w-12 h-12 rounded-full mr-4">
+                            <div>
+                                <p class="font-bold text-white">Anh Lê Văn C</p>
+                                <p class="text-sm text-gray-400">Chủ nhà hàng</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 italic">"Quy trình làm việc rất minh bạch và nhanh chóng. Các bạn đã
+                            giúp tôi có một bộ menu và các ấn phẩm quảng cáo vô cùng bắt mắt."</p>
+                    </div>
+                </div>
+            </div>
+        </section> -->
+
+        <!-- PHẦN 10: BLOG -->
+        <section id="blog" class="py-20 bg-black bg-opacity-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 reveal">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Góc Nhìn & Chia Sẻ Từ Chuyên Gia</h2>
+                    <p class="text-gray-400 mt-2">Cập nhật những xu hướng thiết kế và marketing mới nhất từ blog của
+                        chúng tôi.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Blog Post 1 -->
+                    <div class="reveal glass-effect rounded-xl overflow-hidden group">
+                        <img src="https://placehold.co/600x400/f97316/FFFFFF?text=Blog+1" alt="Blog Post 1"
+                            class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-300">
+                        <div class="p-6">
+                            <p class="text-sm text-orange-400 mb-2">Branding • 01/07/2025</p>
+                            <h3 class="text-xl font-bold text-white mb-3">5 Xu Hướng Thiết Kế Logo Sẽ Thống Trị Năm 2026
+                            </h3>
+                            <a href="#" class="font-semibold text-amber-400 hover:underline">Đọc thêm →</a>
+                        </div>
+                    </div>
+                    <!-- Blog Post 2 -->
+                    <div class="reveal glass-effect rounded-xl overflow-hidden group" style="transition-delay: 200ms;">
+                        <img src="https://placehold.co/600x400/fbbf24/000000?text=Blog+2" alt="Blog Post 2"
+                            class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-300">
+                        <div class="p-6">
+                            <p class="text-sm text-orange-400 mb-2">Web Design • 28/06/2025</p>
+                            <h3 class="text-xl font-bold text-white mb-3">Làm Thế Nào Để Tối Ưu UX/UI Cho Website Bán
+                                Lẻ?</h3>
+                            <a href="#" class="font-semibold text-amber-400 hover:underline">Đọc thêm →</a>
+                        </div>
+                    </div>
+                    <!-- Blog Post 3 -->
+                    <div class="reveal glass-effect rounded-xl overflow-hidden group" style="transition-delay: 400ms;">
+                        <img src="https://placehold.co/600x400/ea580c/FFFFFF?text=Blog+3" alt="Blog Post 3"
+                            class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-300">
+                        <div class="p-6">
+                            <p class="text-sm text-orange-400 mb-2">Marketing • 25/06/2025</p>
+                            <h3 class="text-xl font-bold text-white mb-3">Bí Quyết Viết Nội Dung Landing Page Chuyển Đổi
+                                Cao</h3>
+                            <a href="#" class="font-semibold text-amber-400 hover:underline">Đọc thêm →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PHẦN 11: CÂU HỎI THƯỜNG GẶP (FAQ) -->
+        <section id="faq" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12 reveal">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Câu Hỏi Thường Gặp</h2>
+                </div>
+                <div class="max-w-3xl mx-auto space-y-4">
+                    <!-- FAQ 1 -->
+                    <div class="reveal glass-effect rounded-lg">
+                        <button class="accordion-toggle flex justify-between items-center w-full p-6 text-left">
+                            <span class="font-semibold text-white">Chi phí cho một dự án thiết kế logo là bao
+                                nhiêu?</span>
+                            <svg class="accordion-icon w-6 h-6 text-orange-400 transform transition-transform"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="accordion-content px-6 pb-4 text-gray-300">
+                            <p>Chi phí thiết kế logo tại PPT MEDIA bắt đầu từ 2.000.000 VNĐ. Tuy nhiên, giá cuối cùng sẽ
+                                phụ thuộc vào độ phức tạp của yêu cầu, số lượng mẫu concept và các yếu tố khác. Vui lòng
+                                liên hệ để nhận báo giá chính xác nhất.</p>
+                        </div>
+                    </div>
+                    <!-- FAQ 2 -->
+                    <div class="reveal glass-effect rounded-lg">
+                        <button class="accordion-toggle flex justify-between items-center w-full p-6 text-left">
+                            <span class="font-semibold text-white">Thời gian hoàn thành một website là bao lâu?</span>
+                            <svg class="accordion-icon w-6 h-6 text-orange-400 transform transition-transform"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="accordion-content px-6 pb-4 text-gray-300">
+                            <p>Thời gian hoàn thành một website phụ thuộc vào quy mô và độ phức tạp của dự án. Một
+                                website cơ bản có thể mất từ 2-4 tuần, trong khi một dự án phức tạp hơn có thể cần 1-2
+                                tháng hoặc hơn. Chúng tôi sẽ cung cấp một lộ trình chi tiết sau khi đã hiểu rõ yêu cầu
+                                của bạn.</p>
+                        </div>
+                    </div>
+                    <!-- FAQ 3 -->
+                    <div class="reveal glass-effect rounded-lg">
+                        <button class="accordion-toggle flex justify-between items-center w-full p-6 text-left">
+                            <span class="font-semibold text-white">Tôi có được nhận file thiết kế gốc không?</span>
+                            <svg class="accordion-icon w-6 h-6 text-orange-400 transform transition-transform"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="accordion-content px-6 pb-4 text-gray-300">
+                            <p>Chắc chắn rồi. Sau khi hoàn tất thanh toán, chúng tôi sẽ bàn giao toàn bộ các file thiết
+                                kế cuối cùng, bao gồm cả file gốc (AI, PSD,...) và các định dạng phổ biến khác (JPG,
+                                PNG, SVG, PDF) để bạn có thể sử dụng cho nhiều mục đích khác nhau.</p>
+                        </div>
+                    </div>
+                    <!-- FAQ 4 -->
+                    <div class="reveal glass-effect rounded-lg">
+                        <button class="accordion-toggle flex justify-between items-center w-full p-6 text-left">
+                            <span class="font-semibold text-white">Quy trình thanh toán như thế nào?</span>
+                            <svg class="accordion-icon w-6 h-6 text-orange-400 transform transition-transform"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="accordion-content px-6 pb-4 text-gray-300">
+                            <p>Quy trình thanh toán của chúng tôi được chia làm 2 đợt: 50% giá trị hợp đồng được thanh
+                                toán trước để khởi động dự án, và 50% còn lại được thanh toán sau khi bạn đã phê duyệt
+                                thiết kế cuối cùng và trước khi chúng tôi bàn giao sản phẩm.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PHẦN 12: CALL TO ACTION CUỐI TRANG & LIÊN HỆ -->
+        <section id="contact" class="py-20 bg-black bg-opacity-20">
+            <div class="container mx-auto px-6 reveal">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl md:text-5xl font-bold text-white">Bạn Đã Sẵn Sàng Biến Tầm Nhìn Thành Hiện Thực?
+                    </h2>
+                    <p class="text-gray-300 mt-4 max-w-2xl mx-auto">Dù bạn cần một logo độc đáo, một website chuyên
+                        nghiệp, hay một chiến dịch truyền thông bùng nổ, chúng tôi luôn ở đây để giúp bạn.</p>
+                </div>
+                <div class="max-w-4xl mx-auto p-8 glass-effect rounded-xl">
+                    <form>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-300 mb-2">Họ và Tên</label>
+                                <input type="text" id="name"
+                                    class="w-full bg-gray-900/50 border border-gray-700 rounded-lg p-3 focus:ring-orange-500 focus:border-orange-500 transition"
+                                    placeholder="Nguyễn Văn An">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                                <input type="email" id="email"
+                                    class="w-full bg-gray-900/50 border border-gray-700 rounded-lg p-3 focus:ring-orange-500 focus:border-orange-500 transition"
+                                    placeholder="email@example.com">
+                            </div>
+                        </div>
+                        <div class="mt-6">
+                            <label for="service" class="block text-sm font-medium text-gray-300 mb-2">Dịch vụ bạn quan
+                                tâm</label>
+                            <select id="service"
+                                class="w-full bg-gray-900/50 border border-gray-700 rounded-lg p-3 focus:ring-orange-500 focus:border-orange-500 transition">
+                                <option>Thiết kế Website</option>
+                                <option>Thiết kế Logo & Branding</option>
+                                <option>Thiết kế Banner</option>
+                                <option>Sản xuất Nội dung</option>
+                                <option>Dịch vụ khác</option>
+                            </select>
+                        </div>
+                        <div class="mt-6">
+                            <label for="message" class="block text-sm font-medium text-gray-300 mb-2">Nội dung yêu
+                                cầu</label>
+                            <textarea id="message" rows="5"
+                                class="w-full bg-gray-900/50 border border-gray-700 rounded-lg p-3 focus:ring-orange-500 focus:border-orange-500 transition"
+                                placeholder="Hãy cho chúng tôi biết về dự án của bạn..."></textarea>
+                        </div>
+                        <div class="mt-8 text-center">
+                            <button type="submit"
+                                class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-10 rounded-lg text-lg transition-all transform hover:scale-105">
+                                Gửi Yêu Cầu Tư Vấn
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- PHẦN 13: FOOTER -->
+    <footer class="py-12 border-t border-gray-800">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-4">PPT MEDIA</h3>
+                    <p class="text-gray-400">Giải pháp thiết kế sáng tạo, nâng tầm thương hiệu số.</p>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-gray-400 hover:text-orange-400 transition"><svg class="w-6 h-6"
+                                fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.494v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z" />
+                            </svg></a>
+                        <a href="#" class="text-gray-400 hover:text-orange-400 transition"><svg class="w-6 h-6"
+                                fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-.424.727-.666 1.584-.666 2.501 0 1.791.914 3.366 2.299 4.295-.846-.027-1.647-.258-2.357-.645v.052c0 2.508 1.784 4.6 4.15 5.073-.436.118-.902.181-1.39.181-.331 0-.654-.032-.974-.094.658 2.056 2.568 3.558 4.834 3.604-1.771 1.39-4.005 2.218-6.433 2.218-.42 0-.833-.025-1.245-.073 2.289 1.464 5.008 2.317 7.93 2.317 9.51 0 14.694-7.88 14.694-14.694 0-.224-.005-.448-.015-.672.996-.718 1.858-1.62 2.55-2.654z" />
+                            </svg></a>
+                        <a href="#" class="text-gray-400 hover:text-orange-400 transition"><svg class="w-6 h-6"
+                                fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.069 4.85-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44-.645-1.44-1.441-1.44z" />
+                            </svg></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Dịch vụ</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#services" class="hover:text-orange-400">Thiết kế Website</a></li>
+                        <li><a href="#banner-logo-id" class="hover:text-orange-400">Thiết kế Banner & Logo</a></li>
+
+                        <li><a href="#content-id" class="hover:text-orange-400">Sản xuất Nội dung</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Hỗ trợ</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#faq" class="hover:text-orange-400">Câu hỏi thường gặp</a></li>
+                        <li><a href="#" class="hover:text-orange-400">Chính sách bảo mật</a></li>
+                        <li><a href="#" class="hover:text-orange-400">Điều khoản dịch vụ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Liên hệ</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li>0339446254 - Mr.Dũng</li>
+                        <li>0395575467 - Mr.Duy</li>
+                        <li>Địa chỉ: 97 Man Thiện, Hiệp Phú, Thử Đức, Tp Hồ Chí Minh</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-10 pt-8 border-t border-gray-800 text-center text-gray-500">
+                <p>&copy; 2025 PPT MEDIA. All Rights Reserved.</p>
+                <p class="text-sm mt-1">Ngày cập nhật: 26 tháng 06 năm 2025</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal cho Portfolio -->
+    <div class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+        <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+        <div class="modal-container bg-gray-800 w-11/12 md:max-w-3xl mx-auto rounded-xl shadow-lg z-50 overflow-y-auto">
+            <div
+                class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+                <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                    viewBox="0 0 18 18">
+                    <path
+                        d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                    </path>
+                </svg>
+            </div>
+            <!-- Nội dung Modal -->
+            <div class="modal-content py-4 text-left px-6">
+                <!-- Tiêu đề -->
+                <div class="flex justify-between items-center pb-3">
+                    <p id="modal-title" class="text-2xl font-bold text-white">Chi Tiết Dự Án</p>
+                    <div class="modal-close cursor-pointer z-50">
+                        <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                            viewBox="0 0 18 18">
+                            <path
+                                d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                            </path>
+                        </svg>
+                    </div>
+                </div>
+                <!-- Nội dung chi tiết -->
+                <img id="modal-image" src="" alt="Project Image" class="w-full h-auto rounded-lg mb-4">
+                <h3 class="text-xl font-bold text-orange-400">Thách thức</h3>
+                <p id="modal-challenge" class="text-gray-300 mb-4">Nội dung thách thức...</p>
+                <h3 class="text-xl font-bold text-orange-400">Giải pháp của chúng tôi</h3>
+                <p id="modal-solution" class="text-gray-300 mb-4">Nội dung giải pháp...</p>
+                <h3 class="text-xl font-bold text-orange-400">Kết quả</h3>
+                <p id="modal-result" class="text-gray-300">Nội dung kết quả...</p>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        lucide.createIcons();
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- Script cho Menu trên di động ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => { mobileMenu.classList.add('hidden'); });
+            });
+
+            // --- Script cho hiệu ứng Header khi cuộn ---
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('py-2', 'bg-opacity-70');
+                    header.classList.remove('py-3');
+                } else {
+                    header.classList.add('py-3');
+                    header.classList.remove('py-2', 'bg-opacity-70');
+                }
+            });
+
+            // --- Script cho hiệu ứng xuất hiện khi cuộn ---
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            revealElements.forEach(el => { revealObserver.observe(el); });
+
+            // --- Script cho Bộ lọc Portfolio ---
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const portfolioItems = document.querySelectorAll('.portfolio-item');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    const filter = button.dataset.filter;
+                    portfolioItems.forEach(item => {
+                        if (filter === 'all' || item.dataset.category === filter) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // --- Script cho Modal Portfolio ---
+            const modal = document.querySelector('.modal');
+            const openModalButtons = document.querySelectorAll('.modal-open');
+            const closeModalButtons = document.querySelectorAll('.modal-close');
+
+            const modalData = {
+                'Website TMĐT Thời Trang': {
+                    img: 'https://market-resized.envatousercontent.com/previews/files/495215936/01_boyka_preview.jpg?w=590&h=300&cf_fit=crop&crop=top&format=auto&q=85&s=11f45e904ab642fccd889484035e9068c99e169f78b824ee570f5a28a852af73',
+                    challenge: 'Khách hàng cần một website thương mại điện tử hiện đại, tốc độ nhanh và tối ưu hóa trải nghiệm mua sắm trên di động để cạnh tranh trong thị trường thời trang online.',
+                    solution: 'Chúng tôi đã phát triển một website trên nền tảng tùy chỉnh, tập trung vào UX/UI mượt mà, hình ảnh sản phẩm chất lượng cao và quy trình thanh toán đơn giản. Đồng thời triển khai bộ banner GDN động để thu hút traffic.',
+                    result: 'Tăng 35% lượt truy cập và 20% tỷ lệ chuyển đổi trong 3 tháng đầu. Giảm tỷ lệ thoát trang trên di động xuống 40%.'
+                },
+                'Bộ Nhận Diện Thương Hiệu Startup': {
+                    img: 'https://i.pinimg.com/736x/22/9a/f4/229af46d8099c2a048792ddc68f0a3a9.jpg',
+                    challenge: 'Startup công nghệ cần một bộ nhận diện thương hiệu chuyên nghiệp, độc đáo để tạo sự tin tưởng và thu hút các nhà đầu tư ở vòng gọi vốn đầu tiên.',
+                    solution: 'PPT MEDIA đã thực hiện nghiên cứu sâu về thị trường và đối thủ, từ đó thiết kế một logo tối giản, hiện đại, kể câu chuyện về tầm nhìn của công ty. Chúng tôi cũng phát triển bộ hồ sơ năng lực và các ấn phẩm mạng xã hội đồng bộ.',
+                    result: 'Xây dựng thành công hình ảnh thương hiệu chuyên nghiệp, giúp startup gọi vốn thành công và tạo được tiếng vang ban đầu trong cộng đồng.',
+                },
+                'Chiến Dịch Banner Động': {
+                    img: './a.gif',
+                    challenge: 'Thương hiệu nước giải khát muốn tăng nhận diện cho sản phẩm mới thông qua mạng hiển thị của Google (GDN) nhưng các banner tĩnh trước đây không hiệu quả.',
+                    solution: 'Chúng tôi đã thiết kế một bộ 6 banner HTML5 động với các hiệu ứng bắt mắt, thông điệp ngắn gọn và nút kêu gọi hành động rõ ràng, tuân thủ nghiêm ngặt các tiêu chuẩn của Google.',
+                    result: 'Tỷ lệ nhấp chuột (CTR) của chiến dịch tăng 150% so với chiến dịch cũ. Tỷ lệ ghi nhớ thương hiệu (brand recall) tăng 25% theo khảo sát sau chiến dịch.',
+                },
+                'Landing Page Bất Động Sản': {
+                    img: 'https://market-resized.envatousercontent.com/previews/files/83381179/theme-preview/01_banner.jpg?w=590&h=300&cf_fit=crop&crop=top&format=auto&q=85&s=aa824edd9763528b343a3d55efd6150da7b236aff9d9ecd2d4ce3244b68af33e',
+                    challenge: 'Chủ đầu tư cần một landing page cao cấp để giới thiệu dự án căn hộ hạng sang, thu thập thông tin khách hàng tiềm năng và tạo cảm giác đẳng cấp, độc quyền.',
+                    solution: 'Chúng tôi đã thiết kế một landing page theo phong cách kể chuyện, sử dụng hình ảnh 3D phối cảnh chất lượng cao, video giới thiệu và các hiệu ứng cuộn trang Parallax tinh tế. Form đăng ký được tối ưu để giảm thiểu các bước nhập liệu.',
+                    result: 'Thu về hơn 500 khách hàng tiềm năng chất lượng trong 2 tuần đầu tiên. Tỷ lệ chuyển đổi của landing page đạt 15%, cao hơn mức trung bình của ngành.',
+                },
+                'Thiết Kế Bao Bì Sản Phẩm': {
+                    img: 'https://i.pinimg.com/736x/24/ab/4d/24ab4d3e8497b44dd32a52db7cedb7bd.jpg',
+                    challenge: 'Một thương hiệu mỹ phẩm thiên nhiên cần thiết kế bao bì mới cho dòng sản phẩm chủ lực để trở nên nổi bật hơn trên kệ hàng và thu hút đối tượng khách hàng trẻ.',
+                    solution: 'Chúng tôi đã chọn phong cách thiết kế tối giản với màu sắc pastel và typography hiện đại. Chất liệu giấy tái chế được sử dụng để nhấn mạnh yếu tố "thiên nhiên" của thương hiệu.',
+                    result: 'Doanh số bán hàng tăng 40% trong quý đầu tiên sau khi ra mắt bao bì mới. Sản phẩm nhận được nhiều phản hồi tích cực trên mạng xã hội về thiết kế đẹp mắt.',
+                },
+                'Website Portfolio Nhiếp Ảnh Gia': {
+                    img: 'https://i.pinimg.com/1200x/8d/e5/14/8de5143d5243aa9bae4ca9077163f704.jpg',
+                    challenge: 'Một nhiếp ảnh gia chuyên nghiệp cần một website portfolio để trưng bày các tác phẩm của mình một cách nghệ thuật và ấn tượng nhất.',
+                    solution: 'Chúng tôi đã xây dựng một website với layout dạng lưới bất đối xứng, tập trung hoàn toàn vào hình ảnh. Các hiệu ứng chuyển trang mượt mà và chế độ xem toàn màn hình được tích hợp để mang lại trải nghiệm xem ảnh tốt nhất.',
+                    result: 'Website nhận được giải thưởng thiết kế từ Awwwards. Lượng yêu cầu hợp tác chụp ảnh qua website tăng gấp 3 lần.',
+                }
+            };
+
+            const toggleModal = () => {
+                modal.classList.toggle('opacity-0');
+                modal.classList.toggle('pointer-events-none');
+                document.body.classList.toggle('modal-active');
+            };
+
+            openModalButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const projectTitle = e.target.closest('.portfolio-item').querySelector('h3').textContent;
+                    const data = modalData[projectTitle];
+                    if (data) {
+                        document.getElementById('modal-title').textContent = projectTitle;
+                        document.getElementById('modal-image').src = data.img;
+                        document.getElementById('modal-challenge').textContent = data.challenge;
+                        document.getElementById('modal-solution').textContent = data.solution;
+                        document.getElementById('modal-result').textContent = data.result;
+                    }
+                    toggleModal();
+                });
+            });
+
+            closeModalButtons.forEach(button => {
+                button.addEventListener('click', toggleModal);
+            });
+
+            modal.querySelector('.modal-overlay').addEventListener('click', toggleModal);
+
+            // --- Script cho FAQ Accordion ---
+            const accordionToggles = document.querySelectorAll('.accordion-toggle');
+            accordionToggles.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const icon = button.querySelector('.accordion-icon');
+
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                        icon.style.transform = 'rotate(0deg)';
+                    } else {
+                        // Đóng tất cả các accordion khác trước khi mở cái mới
+                        accordionToggles.forEach(otherButton => {
+                            const otherContent = otherButton.nextElementSibling;
+                            const otherIcon = otherButton.querySelector('.accordion-icon');
+                            if (otherContent !== content) {
+                                otherContent.style.maxHeight = null;
+                                otherIcon.style.transform = 'rotate(0deg)';
+                            }
+                        });
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                        icon.style.transform = 'rotate(180deg)';
+                    }
+                });
+            });
+
+            // --- Script cho hiệu ứng đếm số ---
+            const statsSection = document.getElementById('stats-section');
+            const statNumbers = document.querySelectorAll('.stat-number');
+
+            const animateStats = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        statNumbers.forEach(numberEl => {
+                            const target = +numberEl.dataset.target;
+                            const suffix = numberEl.textContent.replace(/[0-9,]/g, ''); // Lấy hậu tố (%, x)
+                            const duration = 2000; // 2 giây
+                            let start = 0;
+                            const stepTime = Math.abs(Math.floor(duration / target));
+                            const timer = setInterval(() => {
+                                start += 1;
+                                if (target > 1000) { // Tăng tốc cho số lớn
+                                    start += Math.floor(target / 100);
+                                }
+                                if (start >= target) {
+                                    clearInterval(timer);
+                                    numberEl.textContent = target.toLocaleString() + suffix;
+                                } else {
+                                    numberEl.textContent = start.toLocaleString() + suffix;
+                                }
+                            }, stepTime < 1 ? 1 : stepTime);
+                        });
+                        observer.unobserve(statsSection); // Chạy hiệu ứng 1 lần
+                    }
+                });
+            };
+
+            const statsObserver = new IntersectionObserver(animateStats, { threshold: 0.5 });
+            if (statsSection) {
+                statsObserver.observe(statsSection);
+            }
+
+        });
+    </script>
+</body>
+
+</html>
